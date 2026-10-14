@@ -1,6 +1,6 @@
 ---
 name: review
-description: Reviews a finished implementation against the ticket it came from by dispatching four independent review lenses in parallel (code quality, security, implementation vs the ticket, project standards), running the project's linters, tests and SAST scanner, then deduplicating and ranking the findings into a single verdict and optionally publishing one review to the pull request. Use when asked to review a branch, a pull request or a completed change before it is merged.
+description: Reviews a finished implementation against the ticket it came from by dispatching four independent review lenses in parallel (code quality, security, implementation vs the ticket, project standards), running the project's linters, tests, SAST and dependency audit, proposing concrete simpler alternatives to overcomplicated code and current replacements for outdated or insecure choices, then deduplicating and ranking the findings into a single verdict and optionally publishing one review to the pull request. Use when asked to review a branch, a pull request or a completed change before it is merged.
 ---
 
 # Reviewing a finished implementation
@@ -282,7 +282,8 @@ Record each check with its conclusion and link; a pending check is recorded as p
 
 **Locally**, follow section 4 of `<skill>/references/review.md`: discover the project's own commands,
 run only those for the languages the diff touches, compare against a measured baseline, and run a
-SAST scanner scoped to the changed paths if one is installed.
+SAST scanner scoped to the changed paths if one is installed, and run the dependency audit
+(outdated, deprecated and vulnerable packages) from the same section.
 
 For every check: the exact command, the exit code, the measured numbers, and whether it moved
 against the baseline. For every check not run: which, and **why** (not installed, not applicable,
@@ -374,6 +375,15 @@ Same structure.
 ## Minor findings
 Same structure, shorter.
 
+## Simpler ways to do the same
+Every simplification finding, even the Minor ones: what is overcomplicated, the simpler version
+(code or the exact call/helper to use), and what it saves. Say "none found" if the pass found none.
+
+## Outdated or no-longer-safe
+What the diff adds or uses that is deprecated or insecure, with the evidence and the current
+replacement (version, successor package, algorithm or API). Then, separately and not against this
+author: what was already in the project, from the dependency audit.
+
 ## Machine checks
 Table: check | command | exit code | measured result | moved against baseline?
 
@@ -416,7 +426,11 @@ the local report.
 Drop it if:
 
 - **a linter already reports it** (formatting, import order, naming, unused variables);
-- **it is a preference with no failure attached** ("could be extracted", "would read better");
+- **it is a preference with no failure attached** ("could be extracted", "would read better").
+  Two kinds pass this gate by design: a **simplification** that carries the simpler version, proof
+  it behaves the same, and the named cost of keeping the complicated one; and an **outdated or
+  no-longer-safe choice** that carries current evidence (advisory id, deprecation notice, tool
+  output) and the concrete replacement. Without those parts, drop them like any other preference;
 - **it restates the diff** ("this adds a null check");
 - **it is about code the diff does not touch**, and nothing in the diff makes it newly wrong.
 

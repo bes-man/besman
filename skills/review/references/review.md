@@ -194,3 +194,23 @@ install the scanner; install nothing without asking.
 
 `review-security` reads the code with judgement and does not depend on the scanner. A missing
 scanner narrows that lens; it does not remove it.
+
+### Dependency audit — outdated and vulnerable
+
+Run whichever applies to the manifests in the repository, read-only, and pass the result to the
+lenses under `Mechanical checks:`:
+
+| Ecosystem | Vulnerable | Outdated or deprecated |
+|---|---|---|
+| npm / pnpm / yarn | `npm audit --omit=dev --json` | `npm outdated --json`, `npm view <pkg> deprecated` |
+| Python | `pip-audit` | `pip list --outdated` |
+| .NET | `dotnet list package --vulnerable --include-transitive` | `dotnet list package --outdated --deprecated` |
+| Go | `govulncheck ./...` | `go list -m -u all` |
+| Rust | `cargo audit` | `cargo outdated` |
+| Any | `osv-scanner --lockfile=<lockfile>` | |
+
+Split the result in two. **What the diff adds or bumps** goes to the lenses and can become a finding.
+**What was already there** is not this author's doing: report it once, in its own section of the
+report, with the advisory and the first fixed version, so the team learns about it without it
+blocking this pull request. A tool that is not installed goes into `Checks not run`; never fill the
+gap from memory.
