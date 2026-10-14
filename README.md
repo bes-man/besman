@@ -13,20 +13,18 @@ verdict and one GitHub review.
 
 ## Install
 
-In a Claude Code chat, one command:
+In a Claude Code chat:
 
 ```
-/plugin install besman --marketplace bes-man/besman
+/plugin marketplace add bes-man/besman
+/plugin install besman@besman
 ```
 
-Or from a shell:
+Claude Code 2.1.275 and later also take one command: `/plugin install besman --marketplace bes-man/besman`.
 
-```bash
-claude plugin marketplace add bes-man/besman
-claude plugin install besman@besman
-```
+From a shell: `claude plugin marketplace add bes-man/besman`, then `claude plugin install besman@besman`.
 
-or inside Claude Code: `/plugin marketplace add bes-man/besman`, then `/plugin install besman@besman`.
+Then `/reload-plugins` or start a new session.
 
 Without a marketplace, a single file: `bash install-besman.sh` (into `~/.claude`) or
 `bash install-besman.sh --project <dir>` (into one project's `.claude`). Build it with `./build.sh`.
