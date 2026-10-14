@@ -1,0 +1,14 @@
+{
+  "name": "besman",
+  "description": "besman code review plugin",
+  "owner": {
+    "name": "bes-man"
+  },
+  "plugins": [
+    {
+      "name": "besman",
+      "source": "./",
+      "description": "Code review skill with four parallel review subagents"
+    }
+  ]
+}
