@@ -1,5 +1,5 @@
 ---
-name: kb
+name: project
 description: Creates and maintains the project knowledge base `.besman/` that the besman `test` and `review` skills read their standards, rules, constraints and environments from, and records the user's own rules into it. Use when the user wants to set up, refresh, show or add to the project's knowledge base, or says "remember this rule for this project", "add a rule", "load the project knowledge".
 ---
 
@@ -16,12 +16,12 @@ one rule per line, each with where it came from. A paragraph of background is a 
 ## Invocation
 
 ```
-/besman:kb                          show what the knowledge base holds, and what is missing
-/besman:kb init                     create .besman/ from the project, then ask for what cannot be found
-/besman:kb refresh                  re-scan the project and update what changed, keeping user rules
-/besman:kb rule "<rule>"            record one of the user's rules
-/besman:kb env                      (re)write environments.md with the user
-/besman:kb show <file>              print one file
+/besman:project                          show what the knowledge base holds, and what is missing
+/besman:project init                     create .besman/ from the project, then ask for what cannot be found
+/besman:project refresh                  re-scan the project and update what changed, keeping user rules
+/besman:project rule "<rule>"            record one of the user's rules
+/besman:project env                      (re)write environments.md with the user
+/besman:project show <file>              print one file
 ```
 
 A plain sentence works too: "запомни правило: …", "add to the knowledge base that …" is a `rule`.
@@ -127,7 +127,7 @@ ticket's own acceptance criteria outrank `rules.md` for the scope of that ticket
 
 ## Showing it
 
-`/besman:kb` with no argument lists each file with its line count and last change, then lists what
+`/besman:project` with no argument lists each file with its line count and last change, then lists what
 is missing: an environment row still `(unconfirmed)`, a `Not documented. Ask:` line, a test command
 that no longer exists in the manifests. Offer to fix the gaps one question at a time.
 

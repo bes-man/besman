@@ -45,7 +45,7 @@ Read `.besman/` at the project root (`git rev-parse --show-toplevel`): `rules.md
 Rules there outrank this skill's defaults; only the ticket's own acceptance criteria outrank
 `rules.md` for this ticket.
 
-**If `.besman/` does not exist**, say so and offer `/besman:kb init` before continuing. If the user
+**If `.besman/` does not exist**, say so and offer `/besman:project init` before continuing. If the user
 declines, continue on what the project itself documents, and treat every host you cannot place as
 production (below).
 
@@ -368,7 +368,7 @@ Then, in this order:
 8. **Environment changes you made**, and which are still in place.
 9. **Unrelated things you noticed and did not touch**, one line each.
 10. **Knowledge to keep**: anything durable learned (a trap, a missing test account, an environment
-    quirk), offered for `/besman:kb rule`, never written silently.
+    quirk), offered for `/besman:project rule`, never written silently.
 
 Do not post the report to the ticket or pull request on your own; offer, and post only when the user
 agrees. Never write a live `@`-mention of a bot command in anything you post.

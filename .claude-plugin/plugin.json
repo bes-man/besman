@@ -1,7 +1,7 @@
 {
   "name": "besman",
-  "version": "1.2.0",
-  "description": "Project-independent review and testing for Claude Code: /review with four parallel review subagents, /test with four parallel test subagents (cases, Gherkin, backend efficiency, live UI via Playwright and the browser), and /kb, a per-project knowledge base of standards, rules, constraints and environments.",
+  "version": "1.3.0",
+  "description": "Project-independent review and testing for Claude Code: /review with four parallel review subagents, /test with four parallel test subagents (cases, Gherkin, backend efficiency, live UI via Playwright and the browser), and /project, a per-project knowledge base of standards, rules, constraints and environments.",
   "author": {
     "name": "bes-man"
   },

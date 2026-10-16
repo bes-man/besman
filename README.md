@@ -4,7 +4,7 @@ Project-independent code review and testing for Claude Code, with a per-project 
 
 | Skill | Does |
 |---|---|
-| `/besman:kb` | Creates `.besman/` in your project: standards, rules, constraints, environments, test setup. Records your own rules (`/besman:kb rule "..."`). The other two skills read it every run |
+| `/besman:project` | Creates `.besman/` in your project: standards, rules, constraints, environments, test setup. Records your own rules (`/besman:project rule "..."`). The other two skills read it every run |
 | `/besman:review` | Four review subagents in parallel over a diff, the project's linters, tests, SAST and dependency audit, one verdict, one GitHub review |
 | `/besman:test` | Verifies a task before and after the change with the same inputs: every test case worth checking, Gherkin where it belongs, backend efficiency measured, UI driven live through Playwright and with the cursor in a real browser, strict local / test / production separation |
 
@@ -19,7 +19,7 @@ Project-independent code review and testing for Claude Code, with a per-project 
 | `test-efficiency` | Backend efficiency (N+1, unbounded reads, indexes, chatty calls, timeouts), errors, overcomplication |
 | `test-verifier` | Requirement trace, concurrency and authorisation, from the code |
 
-Start in a project with `/besman:kb init`.
+Start in a project with `/besman:project init`.
 
 ## Install
 
@@ -53,8 +53,8 @@ To have everyone who opens a project get it, commit to that project's `.claude/s
 ## Use
 
 ```
-/besman:kb init                       build .besman/ from the project, confirm environments with you
-/besman:kb rule "API errors are RFC 7807 problem details"
+/besman:project init                       build .besman/ from the project, confirm environments with you
+/besman:project rule "API errors are RFC 7807 problem details"
 /besman:review                        review the current branch
 /besman:review --pr 812               review a pull request
 /besman:test 3994                     test a ticket's branch locally, before and after
@@ -74,7 +74,7 @@ Everything runs locally with your own credentials; besman sends nothing to any s
 - `gh` to read the pull request, its checks and comments, and the ticket if it is a GitHub issue.
 - Your project's own linters and tests, and `semgrep` if installed, scoped to the changed files.
 - Writes working files to `/tmp/rv/` and `/tmp/tv/`, and the knowledge base to `.besman/` in your
-  project (only through `/besman:kb`, never silently). Secrets are never written there, only
+  project (only through `/besman:project`, never silently). Secrets are never written there, only
   variable names.
 - `/besman:test` builds and runs your project locally, drives a browser, and calls your local or
   test environment as a test user. It never writes to production, never uses production
