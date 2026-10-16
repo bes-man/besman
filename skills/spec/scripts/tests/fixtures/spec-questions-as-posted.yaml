@@ -1,0 +1,119 @@
+# Eight questions a first spec run once posted, transcribed as data.
+# The lint must refuse this file: it is the shape of comment this tool exists to prevent.
+ticket: 101
+questions:
+  - id: Q1
+    type: business
+    status: BLOCKING
+    anchor:
+      ticket: "A reserved copy stays on hold for 48 hours"
+      code: [storefront/web/pages/reservation/HoldStatus.tsx:93]
+      docs: silent
+      open_because: "The hold clock and the opening hours are independent today."
+    question: "Does the 48-hour hold count only the hours the shop is open?"
+    options:
+      - {id: A, text: "Count opening hours only.", consequence: "A hold placed on Saturday lasts until Tuesday."}
+      - {id: B, text: "Count every hour.", consequence: "A hold placed on Saturday evening ends before the shop reopens."}
+    recommendation: A
+    reason: "A hold that ends while the door is locked cannot be collected."
+  - id: Q2
+    type: business
+    status: BLOCKING
+    anchor:
+      ticket: "The shop's own reading copy must never be put on hold"
+      code: [storefront/src/reservations/reservation_rules.py:28]
+      docs: silent
+      open_because: "The shop treats the reading copy as an ordinary copy elsewhere."
+    question: "Do we exclude the reading copy from holds? This reverses the rule in ReadingCopyPolicyRuleHandler.py on this page only."
+    options:
+      - {id: A, text: "Make the exception, as the ticket asks.", consequence: "The reading copy disappears from reservations."}
+      - {id: B, text: "Keep the existing rule.", consequence: "The ticket's second criterion is not met as written."}
+    recommendation: A
+    reason: "The reading copy never leaves the shop."
+  - id: Q3
+    type: flow
+    status: BLOCKING
+    anchor:
+      ticket: "Held copies are for collection only"
+      code: [storefront/web/pages/reservation/HoldStatus.tsx:93]
+      docs: silent
+      open_because: "Nothing on the page tells a visitor that a copy is held."
+    question: "What should the availability line say while a copy is held?"
+    options:
+      - {id: A, text: "Count held copies as in stock.", consequence: "Two readers may be promised one copy."}
+      - {id: B, text: "Show the held copy separately.", consequence: "One more line on the page."}
+      - {id: C, text: "Hide held copies.", consequence: "Stock looks lower than it is."}
+    recommendation: B
+    reason: "A promised copy is not available to anyone else."
+  - id: Q4
+    type: business
+    status: BLOCKING
+    anchor:
+      ticket: "prefer the copy nearest the collection desk"
+      code: [storefront/src/stock/shelf_positions.py:64]
+      docs: silent
+      open_because: "Shelf position is not recorded for every copy."
+    question: "Which copy is put on hold?"
+    options:
+      - {id: A, text: "The copy nearest the collection desk, else any copy.", consequence: "Quick collection where positions are known."}
+      - {id: B, text: "Any copy.", consequence: "Staff walk the whole shop to find it."}
+    recommendation: A
+    reason: "It gives the quick collection the ticket asks for."
+  - id: Q5
+    type: business
+    status: BLOCKING
+    depends_on: Q4
+    anchor:
+      ticket: "falling back to any copy if needed"
+      code: [storefront/src/stock/shelf_positions.py:64]
+      docs: silent
+      open_because: "Whether positions are ever missing for a whole title is unknown."
+    question: "What if no copy has a known position?"
+    options:
+      - {id: A, text: "Refuse the hold.", consequence: "The reader cannot reserve a book the shop has."}
+      - {id: B, text: "Hold any copy.", consequence: "Staff search for it at collection time."}
+    recommendation: B
+    reason: "Refusing a reservation for a book in stock is the problem this ticket exists to remove."
+  - id: Q6
+    type: flow
+    status: BLOCKING
+    anchor:
+      ticket: "A reserved copy stays on hold for 48 hours"
+      code: [storefront/src/reservations/hold_expiry.py:44]
+      docs: silent
+      open_because: "The expiry job polls every ten minutes, so a hold ends up to ten minutes late."
+    question: "When a hold ends, how soon is the copy back on sale? The expiry job polls every ten minutes."
+    options:
+      - {id: A, text: "Within ten minutes.", consequence: "A copy may stay held a little past 48 hours."}
+      - {id: B, text: "To the minute.", consequence: "More work for a difference nobody sees."}
+    recommendation: A
+    reason: "Ten minutes either way changes nothing for the reader."
+  - id: Q7
+    type: business
+    status: DEFERRABLE
+    depends_on: Q2
+    anchor:
+      ticket: "The shop's own reading copy must never be put on hold"
+      code: [storefront/src/reservations/reservation_rules.py:28]
+      docs: silent
+      open_because: "Never has no meaning when the reading copy is the last copy."
+    question: "Is the reading copy also excluded when it is the last copy?"
+    options:
+      - {id: A, text: "Yes, always excluded.", consequence: "The title shows as out of stock."}
+      - {id: B, text: "No, the last copy may be held.", consequence: "The reading table is empty for two days."}
+    recommendation: A
+    reason: "The ticket says never."
+  - id: Q8
+    type: business
+    status: BLOCKING
+    anchor:
+      ticket: "A reserved copy stays on hold for 48 hours"
+      code: [storefront/src/reservations/hold_expiry.py:44]
+      docs: silent
+      open_because: "Nothing is stored about when old holds began."
+    question: "Does this change reservations that already exist?"
+    options:
+      - {id: A, text: "Apply to every open reservation.", consequence: "Some readers get a hold they were not promised."}
+      - {id: B, text: "Apply only to new reservations.", consequence: "Old reservations keep their rule."}
+    recommendation: A
+    reason: "The natural behaviour needing no extra rule."

@@ -114,7 +114,8 @@ missing access are `NOT RUN` until it arrives; everything else continues.
 
 Fetch the ticket with whatever tracker the project uses (`gh issue view <n> --json
 title,body,comments`, or a connected Jira/Linear tool). Read every comment in order. Then, in order
-of authority: the specification and its acceptance criteria, the Gherkin scenarios, the latest
+of authority: the specification and its acceptance criteria (`.besman/specs/<id>-spec.md` from
+`/besman:spec` first, then the project's docs), the Gherkin scenarios, the latest
 agreed decision in the comments, the diff, then `.besman/` and the project's documented rules.
 
 Where the ticket body and a later comment disagree, the latest agreed decision wins; say which you

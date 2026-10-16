@@ -11,7 +11,7 @@ FILES=$(cd "$KIT" && find skills agents -type f ! -name '.DS_Store' ! -name '*.p
 {
 cat <<'HEAD'
 #!/usr/bin/env bash
-# besman: installs the review, test and project skills and their subagents into Claude Code.
+# besman: installs the spec, review, test and project skills and their subagents into Claude Code.
 set -euo pipefail
 
 usage() {
@@ -55,8 +55,9 @@ cat <<'TAIL'
 chmod +x "$DEST"/skills/*/scripts/*.sh "$DEST"/skills/*/scripts/*.py 2>/dev/null || true
 
 echo "besman installed into $DEST:"
-echo "  skills: review, test, project  /review, /test, /project"
-echo "  agents: review-* (4), test-* (4)"
+echo "  skills: spec, review, test, project"
+echo "  agents: spec-* (4), review-* (4), test-* (4)"
+python3 -c "import yaml" 2>/dev/null || echo "  warning: PyYAML not installed; /spec needs it (pip install pyyaml)"
 for tool in git gh jq python3; do command -v "$tool" >/dev/null || echo "  warning: $tool not found; the skill needs it"; done
 echo "Restart Claude Code (or start a new session) to pick them up."
 TAIL

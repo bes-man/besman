@@ -1,0 +1,37 @@
+{
+  "issue": {
+    "number": 101,
+    "title": "Hold a reserved book for 48 hours before releasing it",
+    "state": "open",
+    "html_url": "https://github.com/example/bookstore/issues/101",
+    "user": {"login": "alice", "type": "User"},
+    "created_at": "2025-03-12T10:05:19Z",
+    "milestone": {"title": "1.4.0"},
+    "labels": [{"name": "chore"}],
+    "body": "**Parent:** #90\n\n### Acceptance Criteria\n1. A reserved copy stays on hold for **48 hours** after the reservation.\n2. If the reader does not collect it, the copy returns to the shelf.\n\nScreenshot: https://github.com/user-attachments/assets/0a1b2c3d-0000-4000-8000-000000000001\nSee also #95."
+  },
+  "comments": [
+    {"id": 201, "user": {"login": "alice", "type": "User"}, "created_at": "2025-03-12T10:33:06Z",
+     "html_url": "https://github.com/example/bookstore/issues/101#issuecomment-201",
+     "body": "@claude spec"},
+    {"id": 202, "user": {"login": "shop-bot[bot]", "type": "Bot"}, "created_at": "2025-03-12T10:33:33Z",
+     "html_url": "https://github.com/example/bookstore/issues/101#issuecomment-202",
+     "body": "### Spec run stopped: 2 decisions need you first\n\n**Q1 — Does the hold clock pause while the shop is closed?** `BLOCKING`\n**A** — yes. **B** — no.\n\n**Q2 — Is the reader told when the hold ends?** `BLOCKING`\n**A** — yes. **B** — no.\n\n<!-- besman:spec-questions -->\n<!-- besman:awaiting spec -->"},
+    {"id": 203, "user": {"login": "bob", "type": "User"}, "created_at": "2025-03-12T11:07:20Z",
+     "html_url": "https://github.com/example/bookstore/issues/101#issuecomment-203",
+     "body": "@claude spec\n\nQ1 - A\nQ2 - We send an email when the hold ends"},
+    {"id": 204, "user": {"login": "shop-bot[bot]", "type": "Bot"}, "created_at": "2025-03-12T11:07:36Z",
+     "html_url": "https://github.com/example/bookstore/issues/101#issuecomment-204",
+     "body": "### Spec run — resuming on your answers\n\n- [x] Read the ticket"},
+    {"id": 205, "user": {"login": "shop-bot[bot]", "type": "Bot"}, "created_at": "2025-03-12T11:37:41Z",
+     "html_url": "https://github.com/example/bookstore/issues/101#issuecomment-205",
+     "body": "# 101 — Hold a reserved book for 48 hours\n\n## TL;DR\n\n**Problem.** Holds end at once.\n**Cause.** Nothing keeps them.\n**Action.** Keep them 48 hours.\n**Result.** Readers collect their books.\n\n## 3.1 Functional requirements\n\n- **REQ-1** When a copy is reserved, the system shall hold it for 48 hours.\n\n<!-- besman:spec-document -->"},
+    {"id": 206, "user": {"login": "alice", "type": "User"}, "created_at": "2025-03-12T12:00:00Z",
+     "html_url": "https://github.com/example/bookstore/issues/101#issuecomment-206",
+     "body": "@claude REQ-1 should also cover e-book loans."}
+  ],
+  "linked": {
+    "90": {"title": "Feature: Reservations for out-of-stock titles", "state": "open", "labels": ["feature"], "body": "The parent."},
+    "95": {"title": "Bug: Reservation shows as collected before pickup", "state": "closed", "labels": ["bug"], "body": "Shipped."}
+  }
+}

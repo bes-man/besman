@@ -42,6 +42,7 @@ ask once where `.besman/` should go, and record the answer in its `project.md`.
   rules.md           the user's own rules, newest last, never rewritten by a refresh
   testing.md         frameworks, commands, BDD runner, e2e setup, test accounts (variable NAMES only)
   pitfalls.md        traps this project has already fallen into, one per entry
+  specs/             specifications written by /besman:spec, one <id>-spec.md per ticket
   local/             personal notes, gitignored
 ```
 

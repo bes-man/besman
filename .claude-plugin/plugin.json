@@ -1,7 +1,7 @@
 {
   "name": "besman",
-  "version": "1.3.0",
-  "description": "Project-independent review and testing for Claude Code: /review with four parallel review subagents, /test with four parallel test subagents (cases, Gherkin, backend efficiency, live UI via Playwright and the browser), and /project, a per-project knowledge base of standards, rules, constraints and environments.",
+  "version": "1.4.0",
+  "description": "Project-independent spec, review and testing for Claude Code: /spec turns a ticket into a reviewed requirements document, /review and /test each run four parallel subagents, and /project keeps a per-project knowledge base of standards, rules, constraints and environments.",
   "author": {
     "name": "bes-man"
   },

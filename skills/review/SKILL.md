@@ -168,8 +168,8 @@ Fetch the ticket with whatever tracker the project uses (`gh issue view <n> --js
 title,body,comments`, a Jira/Linear/other tool if one is connected). **Read every comment**:
 reproduction data, the second example and the reporter's real expectation often live there.
 
-Then look for a specification or design document for this ticket (search the repository's docs
-directory for the ticket number). If one exists, it, not the ticket body, is what the
+Then look for a specification for this ticket: `.besman/specs/<id>-spec.md` first (written by
+`/besman:spec`), then the repository's docs directory searched for the ticket number. If one exists, it, not the ticket body, is what the
 implementation lens traces against.
 
 If there is a pull request, read it too: `gh pr view <n> --json

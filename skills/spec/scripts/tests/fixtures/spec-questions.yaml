@@ -1,0 +1,75 @@
+ticket: 101
+settled:
+  - fact: "The message for a reservation that cannot be filled is already built and shipped; nothing new is needed there."
+    evidence:
+      - storefront/src/reservations/unavailable_notice.py:37
+  - fact: "A held copy cannot be sold at the counter, because the till already refuses any copy that carries a hold."
+    evidence:
+      - till/src/checkout/held_copies.py:16
+questions:
+  - id: Q1
+    type: business
+    status: BLOCKING
+    anchor:
+      ticket: "The shop's own reading copy must never be put on hold"
+      code:
+        - storefront/src/reservations/reservation_rules.py:28
+      docs: silent
+      open_because: "The ticket keeps the reading copy out of holds, and the shop today treats it as an ordinary copy everywhere."
+    question: "Should the reading copy count as an available copy when a reader reserves a title?"
+    options:
+      - id: A
+        text: "Only when no other copy is in stock, like any last copy."
+        consequence: "A reader may reserve a title whose only copy is the one on the reading table."
+      - id: B
+        text: "Never; the reading copy is invisible to reservations."
+        consequence: "A title with only the reading copy shows as out of stock."
+    recommendation: B
+    reason: "The reading copy stays in the shop by design, so promising it to a reader is a promise the shop cannot keep."
+    conditions:
+      - "If A, and the reading copy is the only one, the reader is told it can be read in the shop but not taken home."
+  - id: Q2
+    type: flow
+    status: BLOCKING
+    anchor:
+      ticket: "Held copies are for collection only"
+      code:
+        - storefront/web/pages/reservation/HoldStatus.tsx:93
+      docs: silent
+      open_because: "The reservation page also says how many copies are left; the ticket does not say what that line shows when one is held."
+    question: "Two copies are in stock and one is held for a reader. What does the next visitor read in the availability line?"
+    options:
+      - id: A
+        text: "In stock: 2."
+        consequence: "The visitor may reserve a copy that is already promised."
+      - id: B
+        text: "In stock: 1, plus one on hold."
+        consequence: "The visitor sees the hold exists, and no name."
+      - id: C
+        text: "In stock: 1."
+        consequence: "The visitor keeps waiting for a copy that is already gone when the hold is collected."
+    recommendation: B
+    reason: "Telling a visitor how many copies are free, and that one is promised, avoids a second reservation of the same copy."
+  - id: Q3
+    type: constraint
+    status: DEFERRABLE
+    anchor:
+      ticket: "Success Metrics Not yet defined"
+      code:
+        - storefront/src/reservations/hold_expiry.py:44
+      docs: docs/domain-model.md
+      open_because: "Nothing is stored about when a hold began before this change, so old reservations have no start time to count from."
+    question: "Does the 48-hour hold also apply to reservations made before the release?"
+    options:
+      - id: A
+        text: "Only reservations made after the release."
+        consequence: "Old reservations keep the rule their readers were told."
+      - id: B
+        text: "Every open reservation, counted from the release."
+        consequence: "A reader with an older reservation gets a hold they were not promised."
+    recommendation: A
+    reason: "Changing a promise a reader has already been given invites a complaint for no gain."
+assumptions:
+  - id: A-1
+    text: "A hold is placed on the copy nearest the collection desk, then on any copy in the shop."
+    reason: "The ticket asks for quick collection, and the shelf position is the nearest notion the shop has today."
