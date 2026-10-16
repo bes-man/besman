@@ -8,7 +8,7 @@
     {
       "name": "besman",
       "source": "./",
-      "description": "Code review skill with four parallel review subagents"
+      "description": "Code review, testing and a project knowledge base: four parallel subagents per skill"
     }
   ]
 }

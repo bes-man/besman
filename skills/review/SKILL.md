@@ -181,7 +181,15 @@ trace against and is skipped, and the review must be labelled as reduced, not pr
 ### 1.5 Find the project's written rules
 
 The standards lens checks the change against **the rules this project wrote down for itself**, so
-find them now and pass the paths. Look for, in this order: `CLAUDE.md`, `AGENTS.md`,
+find them now and pass the paths.
+
+**First, the besman knowledge base**: `.besman/` at the project root (`/besman:kb` creates it).
+Pass `rules.md`, `standards.md`, `constraints.md` and `pitfalls.md` first under `Project rules:`.
+`rules.md` holds the user's own rules and outranks everything else the project documents; only the
+ticket's acceptance criteria outrank it for that ticket. If there is no `.besman/`, say so once and
+mention `/besman:kb init`; do not stop.
+
+Then look for, in this order: `CLAUDE.md`, `AGENTS.md`,
 `CONTRIBUTING.md`, a PR template (`.github/pull_request_template.md`), and a docs directory with
 coding standards, architecture notes, a testing guide or a list of known pitfalls. Also note the
 linters' and formatters' config files, because whatever they enforce is not a review finding.
